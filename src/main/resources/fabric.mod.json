@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "gametime",
+  "version": "${version}",
+  "name": "GameTime",
+  "description": "A simple time and weather control screen for Minecraft.",
+  "authors": ["krispykatze"],
+  "contact": {},
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "client": ["dev.krispykatze.gametime.GameTimeClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.21",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}
