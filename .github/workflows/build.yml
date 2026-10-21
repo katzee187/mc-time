@@ -2,6 +2,9 @@ name: Build GameTime
 
 on:
   push:
+    paths-ignore:
+      - 'versions/26.3/**'
+      - '.github/workflows/build-26.3.yml'
   workflow_dispatch:
 
 permissions:
