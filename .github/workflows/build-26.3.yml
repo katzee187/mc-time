@@ -1,11 +1,14 @@
 name: Build GameTime for Minecraft 26.3
 
-# Manual only: one deliberate build, not one run per uploaded file.
 on:
   workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: gametime-26-3-build
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -26,9 +29,13 @@ jobs:
       - name: Build Minecraft 26.3 mod
         working-directory: versions/26.3
         run: gradle build --no-daemon
+      - name: Verify built mod JAR
+        run: |
+          test -f versions/26.3/build/libs/gametime-26.3-1.1.1.jar
+          jar tf versions/26.3/build/libs/gametime-26.3-1.1.1.jar | grep -q 'fabric.mod.json'
       - name: Upload Minecraft 26.3 JAR
         uses: actions/upload-artifact@v4
         with:
           name: gametime-fabric-26.3
-          path: versions/26.3/build/libs/*.jar
+          path: versions/26.3/build/libs/gametime-26.3-1.1.1.jar
           if-no-files-found: error
