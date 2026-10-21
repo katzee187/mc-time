@@ -54,8 +54,9 @@ public class GameTimeScreen extends Screen {
 
     @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
-        super.extractRenderState(graphics, mouseX, mouseY, delta);
+        graphics.fill(left, top, left + PANEL_WIDTH, top + PANEL_HEIGHT, 0xF0181B20);
         graphics.fill(left, top, left + PANEL_WIDTH, top + 2, 0xFF8FFFE0);
+        super.extractRenderState(graphics, mouseX, mouseY, delta);
         graphics.text(font, title, width / 2 - font.width(title) / 2, top + 14, 0xFFFFFFFF, false);
         Component subtitle = Component.literal("Time and weather (requires permission)");
         graphics.text(font, subtitle, width / 2 - font.width(subtitle) / 2, top + 31, 0xFFB8C4CC, false);
