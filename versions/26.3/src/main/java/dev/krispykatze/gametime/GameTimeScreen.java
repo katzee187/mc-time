@@ -1,6 +1,7 @@
 package dev.krispykatze.gametime;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -19,7 +20,6 @@ public class GameTimeScreen extends Screen {
     protected void init() {
         left = (width - PANEL_WIDTH) / 2;
         top = (height - PANEL_HEIGHT) / 2;
-        clearWidgets();
 
         addRenderableWidget(Button.builder(Component.literal("Sunrise"), b -> GameTimeClient.command("time set 0"))
                 .bounds(left + 18, top + 45, 82, 20).build());
@@ -53,14 +53,17 @@ public class GameTimeScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        renderBackground(graphics, mouseX, mouseY, delta);
-        graphics.fill(left, top, left + PANEL_WIDTH, top + PANEL_HEIGHT, 0xF0181B20);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+        super.extractRenderState(graphics, mouseX, mouseY, delta);
         graphics.fill(left, top, left + PANEL_WIDTH, top + 2, 0xFF8FFFE0);
-        graphics.drawCenteredString(font, title, width / 2, top + 14, 0xFFFFFFFF);
-        graphics.drawCenteredString(font, Component.literal("Time and weather (requires permission)"),
-                width / 2, top + 31, 0xFFB8C4CC);
-        super.render(graphics, mouseX, mouseY, delta);
+        graphics.text(font, title, width / 2 - font.width(title) / 2, top + 14, 0xFFFFFFFF, false);
+        Component subtitle = Component.literal("Time and weather (requires permission)");
+        graphics.text(font, subtitle, width / 2 - font.width(subtitle) / 2, top + 31, 0xFFB8C4CC, false);
+    }
+
+    @Override
+    public void onClose() {
+        Minecraft.getInstance().gui.setScreen(null);
     }
 
     @Override
